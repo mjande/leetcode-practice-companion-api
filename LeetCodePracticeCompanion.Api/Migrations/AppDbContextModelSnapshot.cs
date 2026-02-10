@@ -24,24 +24,18 @@ namespace LeetCodePracticeCompanion.Api.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<string>("CurrentInterval")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT")
+                    b.Property<int>("CurrentInterval")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("current_interval");
 
-                    b.Property<string>("Difficulty")
-                        .IsRequired()
+                    b.Property<int>("Difficulty")
                         .HasMaxLength(20)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("difficulty");
 
                     b.Property<DateOnly?>("DueDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("due_date");
-
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("is_done");
 
                     b.Property<DateOnly?>("LastSolveDate")
                         .HasColumnType("TEXT")
