@@ -13,17 +13,19 @@ public class Problem
 {
     [Key] public int Id { get; init; }
 
-    [Required] public int Number { get; init; }
+    [Required] public int Number { get; set; }
 
-    [MaxLength(200)] [Required] public string Name { get; set; }
+    [MaxLength(200)] [Required] public required string Name { get; set; }
 
-    [MaxLength(20)] [Required] public DifficultyOptions Difficulty { get; set; }
+    [Required] public DifficultyOptions Difficulty { get; set; }
 
-    public int CurrentInterval { get; set; } = 1;
+    [Required] public int IntervalDays { get; set; } = 1;
+    
+    [Required] public int IntervalMonths { get; set; } = 0;
 
     public DateOnly? LastSolveDate { get; set; }
 
     public DateOnly? DueDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
-    [MaxLength(200)] [Required] public string Url { get; set; }
+    [MaxLength(200)] [Required] public required string Url { get; set; }
 }

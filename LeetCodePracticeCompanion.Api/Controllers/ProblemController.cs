@@ -1,13 +1,15 @@
-using LeetCodePracticeCompanion.Api.Data;
 using LeetCodePracticeCompanion.Api.Models;
+using LeetCodePracticeCompanion.Api.Models.Requests;
 using LeetCodePracticeCompanion.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeetCodePracticeCompanion.Api.Controllers;
 
+
+
 [ApiController]
-[Route("api/[controller]")]
-public class ProblemsController(ProblemRepository repository) : ControllerBase
+[Route("api/problems")]
+public class ProblemController(IProblemRepository repository) : ControllerBase
 {
     [HttpGet]
     public ActionResult<List<Problem>> GetAll()
@@ -31,17 +33,32 @@ public class ProblemsController(ProblemRepository repository) : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = problem.Id }, problem);
     }
 
+    [HttpPost("{id:int}/solve")]
+    public ActionResult Solve(int id, [FromBody] SolveProblemRequest request)
+    {
+        var problem = repository.GetProblem(id);
+        if (problem == null)
+            return NotFound();
+
+        repository.SolveProblem(problem, request.SolvedWithoutHelp, request.SolvedWithCorrectComplexity);
+        return NoContent();
+    }
+
     [HttpPut("{id:int}")]
     public IActionResult Update(int id, Problem problem)
     {
         if (id != problem.Id)
             return BadRequest();
 
-        var existing = repository.GetProblem(id);
-        if (existing == null)
+        try
+        {
+            repository.UpdateProblem(problem);
+        }
+        catch (KeyNotFoundException)
+        {
             return NotFound();
+        }
 
-        repository.UpdateProblem(problem);
         return NoContent();
     }
 

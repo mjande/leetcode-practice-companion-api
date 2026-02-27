@@ -29,7 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 // Repositories
-builder.Services.AddScoped<ProblemRepository>();
+builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
 
 builder.Services.AddOpenApi();
 
