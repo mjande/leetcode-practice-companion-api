@@ -41,15 +41,13 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-}
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseCors("AllowUI");
 app.MapControllers();
+
+// Health check endpoint for Docker service
+app.MapGet("/health", () => Results.Ok("Healthy"));
 
 app.Run();

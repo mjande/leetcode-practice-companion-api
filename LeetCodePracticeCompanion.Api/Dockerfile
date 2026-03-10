@@ -13,6 +13,9 @@ WORKDIR /app
 COPY --from=build /app/publish .
 RUN mkdir Data
 
+# Install curl
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
