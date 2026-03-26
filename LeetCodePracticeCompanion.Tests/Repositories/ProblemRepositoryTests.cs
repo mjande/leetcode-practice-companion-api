@@ -37,16 +37,18 @@ public class ProblemRepositoryTests
                 Number = 1,
                 Name = "EarlierProblem",
                 Difficulty = DifficultyOptions.Medium,
-                DueDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)),
                 Url = "https://www.leetcode.com",
+                LastSolveDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)),
+                IntervalDays = 1,
             },
             new Problem
             {
                 Number = 1,
                 Name = "LaterProblem",
                 Difficulty = DifficultyOptions.Medium,
-                DueDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
                 Url = "https://www.leetcode.com",
+                LastSolveDate = DateOnly.FromDateTime(DateTime.Today),
+                IntervalDays = 1,
             }
         );
         context.SaveChanges();
@@ -54,7 +56,8 @@ public class ProblemRepositoryTests
         var result = repo.GetAllProblems();
 
         Assert.Equal(2, result.Count());
-        Assert.True(result[0].DueDate <= result[1].DueDate);
+        Assert.True(result[0].Name == "EarlierProblem");
+        Assert.True(result[1].Name == "LaterProblem");
     }
 
     [Fact]
@@ -93,7 +96,6 @@ public class ProblemRepositoryTests
             Number = 1,
             Name = "TestProblem",
             Difficulty = DifficultyOptions.Medium,
-            DueDate = DateOnly.FromDateTime(DateTime.Today),
             IntervalDays = 2,
             Url = "https://www.leetcode.com",
         };
@@ -107,11 +109,6 @@ public class ProblemRepositoryTests
 
         Assert.NotNull(updated);
         Assert.Equal(4, updated.IntervalDays);
-        Assert.Equal(
-            DateOnly.FromDateTime(DateTime.Today.AddDays(4)),
-            updated.DueDate
-        );
-
         Assert.Equal(
             DateOnly.FromDateTime(DateTime.Today),
             updated.LastSolveDate
@@ -130,7 +127,6 @@ public class ProblemRepositoryTests
             Name = "TestProblem",
             Difficulty = DifficultyOptions.Medium,
             IntervalDays = 2,
-            DueDate = DateOnly.FromDateTime(DateTime.Today),
             Url = "https://www.leetcode.com",
         };
 
@@ -143,10 +139,6 @@ public class ProblemRepositoryTests
 
         Assert.NotNull(updated);
         Assert.Equal(1, updated.IntervalDays);
-        Assert.Equal(
-            DateOnly.FromDateTime(DateTime.Today).AddDays(1),
-            updated.DueDate
-        );
         Assert.Equal(
             DateOnly.FromDateTime(DateTime.Today),
             updated.LastSolveDate
@@ -165,7 +157,6 @@ public class ProblemRepositoryTests
             Name = "TestProblem",
             Difficulty = DifficultyOptions.Medium,
             IntervalDays = 2,
-            DueDate = DateOnly.FromDateTime(DateTime.Today),
             Url = "https://www.leetcode.com",
         };
 
@@ -177,7 +168,6 @@ public class ProblemRepositoryTests
         
         Assert.NotNull(updated);
         Assert.Equal(2, updated.IntervalDays);
-        Assert.Equal(DateOnly.FromDateTime(DateTime.Today).AddDays(2), updated.DueDate);
         Assert.Equal(DateOnly.FromDateTime(DateTime.Today), updated.LastSolveDate);
     }
     

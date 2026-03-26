@@ -29,10 +29,6 @@ namespace LeetCodePracticeCompanion.Api.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("difficulty");
 
-                    b.Property<DateOnly?>("DueDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("due_date");
-
                     b.Property<int>("IntervalDays")
                         .HasColumnType("INTEGER")
                         .HasColumnName("interval_days");

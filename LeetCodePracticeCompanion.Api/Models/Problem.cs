@@ -21,11 +21,9 @@ public class Problem
 
     [Required] public int IntervalDays { get; set; } = 1;
     
-    [Required] public int IntervalMonths { get; set; } = 0;
+    [Required] public int IntervalMonths { get; set; }
 
     public DateOnly? LastSolveDate { get; set; }
-
-    public DateOnly? DueDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [MaxLength(200)] [Required] public required string Url { get; set; }
 }

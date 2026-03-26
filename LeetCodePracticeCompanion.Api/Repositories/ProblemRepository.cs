@@ -26,7 +26,12 @@ public class ProblemRepository(AppDbContext context) : IProblemRepository
 
     public List<Problem> GetAllProblems()
     {
-        return context.Problems.OrderBy(p => p.DueDate).ToList();
+        return context.Problems
+            .ToList()
+            .OrderBy(p => p.LastSolveDate?
+                .AddMonths(p.IntervalMonths)
+                .AddDays(p.IntervalDays))
+            .ToList();
     }
     
     public Problem? GetProblem(int problemId)
@@ -49,10 +54,6 @@ public class ProblemRepository(AppDbContext context) : IProblemRepository
 
         problem.IntervalDays = updatedInterval.Days;
         problem.IntervalMonths = updatedInterval.Months;
-
-
-        problem.DueDate = DateOnly.FromDateTime(DateTime.Today).AddMonths(problem.IntervalMonths)
-            .AddDays(problem.IntervalDays);
         
         context.Problems.Update(problem);
         context.SaveChanges();
@@ -70,7 +71,6 @@ public class ProblemRepository(AppDbContext context) : IProblemRepository
         existingProblem.IntervalDays = problem.IntervalDays;
         existingProblem.IntervalMonths = problem.IntervalMonths;
         existingProblem.LastSolveDate = problem.LastSolveDate;
-        existingProblem.DueDate = problem.DueDate;
         existingProblem.Url = problem.Url;
         
         context.SaveChanges();
